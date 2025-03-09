@@ -33,8 +33,8 @@ function NavIcons() {
       }
       <Image src='/notification.png' alt='' width={22} height={22} className='cursor-pointer'/>
 
-      <div className='border relative'>
-        <Image src='/cart.png' alt='' width={22} height={22} className='cursor-pointer' onClick={()=>setIsCartOpen(!isCartOpen)}/>
+      <div className='border relative' onClick={()=>setIsCartOpen(!isCartOpen)}>
+        <Image src='/cart.png' alt='' width={22} height={22} className='cursor-pointer'/>
 
         <div className='absolute -top-4 -right-4 h-6 w-6 bg-red-400 text-white rounded-full items-center justify-center flex'>2</div>
       </div>

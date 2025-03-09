@@ -1,8 +1,15 @@
 import Image from 'next/image'
-import React from 'react'
+import React, { Suspense } from 'react'
 import Filter from '../components/Filter'
+import ProductList from '../components/ProductList'
+import { wixClientSever } from '@/lib/wixClientServer'
 
-function ListPage() {
+async function ListPage({searchParams}:{searchParams:any}) {
+
+  const wixClient = await wixClientSever()
+  const cat = await wixClient.collections.getCollectionBySlug(searchParams.cat || 'all-products')
+
+  console.log(cat)
   return (
     <div className='border border-black spx-4 md:px-8 lg:px-16 xl:px-32 2xl:px-64 relative'>
       <div className='bg-pink-50 px-4 hidden md:flex justify-between h-64'>
@@ -16,8 +23,9 @@ function ListPage() {
       </div>
 
       <Filter/>
-      
-      
+      <Suspense fallback={'loading..'}>
+       <ProductList categoryId={cat.collection?._id || "00000000-000000-000000-000000000001"} searchParams={''}/>
+      </Suspense>       
     </div>
   )
 }
