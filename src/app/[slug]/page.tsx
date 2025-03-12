@@ -2,12 +2,12 @@ import React from 'react'
 import ProductImages from '../components/ProductImages'
 import CustomizeProducts from '../components/CustomizeProducts'
 import Add from '../components/Add'
-import { wixClientSever } from '@/lib/wixClientServer'
+import { wixClientServer } from '@/lib/wixClientServer'
 import { notFound } from 'next/navigation'
 
 async function SinglePage({params}:{params:{slug:string}}) {
 
-    const wixClient = await wixClientSever()
+    const wixClient = await wixClientServer()
   
     const products = await wixClient.products.queryProducts().eq("slug",params.slug).find()
 
@@ -16,6 +16,7 @@ async function SinglePage({params}:{params:{slug:string}}) {
     }
 
     const product = products.items[0]
+
 return (
     <div className='border border-black spx-4 md:px-8 lg:px-16 xl:px-32 2xl:px-64 relative flex flex-col lg:flex-row gap-16'>
       <div className='border border-black w-full lg:w-1/2 lg:sticky top-20 my-5'>
@@ -39,8 +40,13 @@ return (
         )
         }
         <div className='h-[2px] bg-gray-100'/>
-        <CustomizeProducts/>
-        <Add/>
+        {product.variants && product.productOptions ? (
+
+          <CustomizeProducts productId={product._id} variants={product.variants} productOptions={product.productOptions}/>
+
+        ):(
+          <Add productId={product._id} variantId='00000000-000000-000000-000000000001' stockNum={product.stock?.quantity || 0}/>
+        )}
 
         <div className='h-[2px] bg-gray-100'/>
 

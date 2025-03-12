@@ -6,7 +6,6 @@ function ProductImages({items}:{items:any}) {
 
   const [index, seIndex] = useState(0)
 
-  console.log(items)
   return (
     <div className='border border-orange-500'>
       <div className='h-[500px] relative'>

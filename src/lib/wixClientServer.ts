@@ -3,7 +3,7 @@ import { collections, products } from "@wix/stores";
 import { cookies } from "next/headers";
 
 
-export const wixClientSever = async ()=>{
+export const wixClientServer = async ()=>{
 
     let refreshToken;
     try {

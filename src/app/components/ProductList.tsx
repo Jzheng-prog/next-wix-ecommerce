@@ -1,20 +1,49 @@
-import { wixClientSever } from '@/lib/wixClientServer'
+import { wixClientServer } from '@/lib/wixClientServer'
 import { products } from '@wix/stores'
 import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
 import DOMPurify from 'isomorphic-dompurify'
+import Pagination from './Pagination'
 interface ProductListProps {
   categoryId?: string
   limit?: number
   searchParams?: any
 }
+
+const PRODUCT_PER_PAGE = 8;
 async function ProductList({categoryId,limit,searchParams}:ProductListProps) {
 
-  const wixClient = await wixClientSever()
+  const wixClient = await wixClientServer()
 
-  const res = await wixClient.products.queryProducts().eq("collectionIds",categoryId).limit(limit || 20).find()
+  let query = await wixClient.products
+    .queryProducts()
+    .startsWith('name', searchParams?.name || '')
+    .hasSome('collectionIds', [categoryId]) // Ensures it works with arrays
+    .hasSome('productType', [searchParams?.type || 'physical', 'digital'])
+    .gt('priceData.price', searchParams?.min || 0)
+    .lt('priceData.price', searchParams?.max || 99999)
+    .limit(limit || PRODUCT_PER_PAGE)
+    .skip(searchParams?.page ? parseInt(searchParams.page) * (limit || PRODUCT_PER_PAGE) : 0)
 
+  if (searchParams?.sort) {
+    const [sortType, sortBy] = searchParams.sort.split(' ');
+
+    // console.log({ sortBy, sortType });
+
+    if (sortBy) {
+      if (sortType === 'asc') {
+        query = query.ascending(sortBy);
+      }
+      if (sortType === 'desc') {
+        query = query.descending(sortBy);
+      }
+    }
+  }
+
+  const res = await query.find();
+
+  // console.log(res.hasNext(), res.length)
   return (
     <div className='border flex gap-x-8 gap-y-16 justify-between flex-wrap'>
 
@@ -41,7 +70,7 @@ async function ProductList({categoryId,limit,searchParams}:ProductListProps) {
           </div>
           <div className='border flex justify-between'>
             <span className='font-medium'>{product.name}</span>
-            <span className='font-semiboldm'>${product.price?.price}</span>
+            <span className='font-semibold'>${product.price?.price}</span>
           </div>
           {
             product.additionalInfoSections && (
@@ -53,8 +82,7 @@ async function ProductList({categoryId,limit,searchParams}:ProductListProps) {
         </Link>
 
       ))}
-
-      
+      <Pagination currentPage={res.currentPage || 0} hasPrev={res.hasPrev()} hasNext={res.hasNext()}/>
     </div>
   )
 }

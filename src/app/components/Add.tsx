@@ -1,17 +1,21 @@
 'use client'
 import React, { useState } from 'react'
 
-function Add() {
+interface AddProps {
+  stockNum:number,
+  productId:string,
+  variantId:string
+}
+function Add({stockNum, productId, variantId}:AddProps) {
 
     const [quantity, setQuantity] = useState(1)
 
-    const stock = 4;
     const handleClick = (action:string)=>{
 
         if(action ==='minus' && quantity > 1){
             setQuantity(quantity-1)
         }
-        if(action ==='add' && quantity < stock){
+        if(action ==='add' && quantity < stockNum){
             setQuantity(quantity+1)
         }
     }
@@ -25,9 +29,16 @@ function Add() {
                 {quantity}
                 <button className='text-xl' onClick={()=>handleClick('add')}>+</button>
             </div>
-            <div className='text-xs'>
-                Only <span className='text-orange-500'>4 items</span> left! <br />{"Don't"} miss it!
-            </div>
+            {stockNum < 1 ? (
+              <div className='text-xs'>
+                Product Out of Stock!
+              </div>
+            ):(
+              <div className='text-xs'>
+                Only <span className='text-orange-500'>{stockNum} items</span> left! <br />{"Don't"} miss it!
+              </div>
+            )}
+            
         </div>
         <button className='ring-1 w-36 rounded-3xl ring-red-400 py-2 px-4 hover:bg-red-400 hover:text-white'>Add to Cart</button>
 
