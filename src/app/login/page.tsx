@@ -1,7 +1,10 @@
 'use client'
 
 import { useWixClient } from "@/hooks/useWixClient"
+import { LoginState } from "@wix/sdk"
 import { useState } from "react"
+import Cookies from "js-cookie"
+import { useRouter } from "next/navigation"
 
 enum MODE {
   LOGIN='LOGIN',
@@ -11,6 +14,14 @@ enum MODE {
 }
 function Login() {
 
+  // const router = useRouter()
+  // const wixClient = useWixClient()
+  // const isLoggedIn = wixClient.auth.loggedIn();
+  // console.log({isLoggedIn})
+
+  // if(isLoggedIn){
+  //   router.push('/')
+  // }
   const [mode, setMode] = useState(MODE.LOGIN)
 
   const [username, setUsername] = useState('')
@@ -21,6 +32,7 @@ function Login() {
   const [error, setError] = useState('')
   const [message, setMessage] = useState('')
 
+  
   const formTitle =
     mode === MODE.LOGIN
     ? 'Login In'
@@ -39,32 +51,98 @@ function Login() {
     ? 'Reset'
     : 'Verify'
 
-  const wixClient = useWixClient()
+  const handleSubmit = async (e:React.FormEvent)=>{
+    e.preventDefault()
+    setIsLoading(true)
+    setError('')
+
+
+    try {
+      let response;
+
+      switch (mode){
+        case MODE.LOGIN:
+          response = await wixClient.auth.login({
+            email,
+            password
+          })
+          break;
+        case MODE.REGISTER:
+          response = await wixClient.auth.register({
+            email,
+            password,
+            profile:{nickname:username}
+          })
+          break;
+        case MODE.RESET_PASSWORD:
+          response = await wixClient.auth.sendPasswordResetEmail(
+            email,
+            window.location.href
+          )
+          break;
+        case MODE.EMAIL_VERFICATION:
+          response = await wixClient.auth.processVerification({
+            verificationCode:emailCode
+          })
+          break;
+        default:
+          break;
+      }
+      console.log({response})
+
+      console.log(response?.loginState)
+
+
+      switch(response?.loginState){
+        case LoginState.SUCCESS:
+          setMessage('Successful! You are being redirected!')
+          const tokens = await wixClient.auth.getMemberTokensForDirectLogin(response.data.sessionToken!)
+
+          console.log(tokens)
+
+          Cookies.set('refreshToken', JSON.stringify(tokens.refreshToken),{
+            expires:2
+          })
+          wixClient.auth.setTokens(tokens)
+
+          router.push('/')
+          break;
+
+        default:
+          break;
+      }
+    } catch (error) {
+      console.log(error)
+      setError('Something went wrong.')
+    }finally{
+      setIsLoading(false)
+    }
+  }
   return (
     <div className="border border-black px-4 md:px-8 lg:px-16 xl:32 2xl: relative h-[calc(100vh-80px)] flex items-center justify-center">
-      <form action="" className="border flex flex-col gap-8">
+      <form action="" className="border flex flex-col gap-8" onSubmit={handleSubmit}>
         <h1 className="text-2xl font-semibold">{formTitle}</h1>
         {mode===MODE.REGISTER ?(
           <div className="border flex flex-col gap-2">
             <label htmlFor="">Username</label>
-            <input type="text" name="username" placeholder="john" className="ring-2 ring-gray-300 rounded-md p-4"/>
+            <input type="text" name="username" placeholder="john" className="ring-2 ring-gray-300 rounded-md p-4" onChange={(e)=>setUsername(e.target.value)}/>
           </div>
         ): null}
         {mode !== MODE.EMAIL_VERFICATION ? (
           <div className="border flex flex-col gap-2">
             <label htmlFor="" className="text-sm text-gray-700">E-Mail</label>
-            <input type="text" name="username" placeholder="john@gmail.com" className="ring-2 ring-gray-300 rounded-md p-4"/>
+            <input type="text" name="username" placeholder="john@gmail.com" className="ring-2 ring-gray-300 rounded-md p-4" onChange={(e)=>setEmail(e.target.value)}/>
           </div>
         ):(
           <div className="border flex flex-col gap-2">
             <label htmlFor="" className="text-sm text-gray-700">Verification</label>
-            <input type="text" name="emailCode" placeholder="code" className="ring-2 ring-gray-300 rounded-md p-4"/>
+            <input type="text" name="emailCode" placeholder="code" className="ring-2 ring-gray-300 rounded-md p-4" onChange={(e)=>setEmailCode(e.target.value)}/>
           </div>
         )}
         {mode === MODE.LOGIN || mode === MODE.REGISTER ? (
           <div className="border flex flex-col gap-2">
             <label htmlFor="" className="text-sm text-gray-700">Password</label>
-            <input type="password" name="password" placeholder="Enter your password" className="ring-2 ring-gray-300 rounded-md p-4"/>
+            <input type="password" name="password" placeholder="Enter your password" className="ring-2 ring-gray-300 rounded-md p-4" onChange={(e)=>setPassword(e.target.value)}/>
           </div>
         ):(
           null

@@ -1,58 +1,76 @@
 'use client'
 import Image from 'next/image'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 import React, { useState } from 'react'
 import CartModal from './CartModal'
 import { useWixClient } from '@/hooks/useWixClient'
+import Cookies from 'js-cookie'
 
 function NavIcons() {
 
   const [isProfileOpen, setIsProfileOpen] = useState(false)
   const [isCartOpen, setIsCartOpen] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
 
-  const router = useRouter();
+  const pathName = usePathname()
+  const router = useRouter()
+  const wixClient = useWixClient()
+  const isLoggedIn = wixClient.auth.loggedIn();
 
-  const isLoggedIn = false;
+  if(isLoggedIn){
+    router.push('/')
+  }
 
   const handleProfile = ()=>{
     if(!isLoggedIn){
       router.push('/login')
+    }else{
+      setIsProfileOpen(!isProfileOpen)
     }
-    setIsProfileOpen(!isProfileOpen)
+  }
+
+  const handleLogout = async ()=>{
+    setIsLoading(true)
+    Cookies.remove('refreshToken')
+    const {logoutUrl} = await wixClient.auth.logout(window.location.href)
+    setIsLoading(false)
+    setIsProfileOpen(false)
+    router.push(logoutUrl)
+
   }
   // Auth with wix-auth
-  const wixClient = useWixClient()
+  // const wixClient = useWixClient()
 
-  let isLoggingIn = false;
+  // let isLoggingIn = false;
 
-  const login = async () => {
-    if (isLoggingIn) return; // Prevent multiple requests
-    isLoggingIn = true;
+  // const login = async () => {
+  //   if (isLoggingIn) return; // Prevent multiple requests
+  //   isLoggingIn = true;
 
-    try {
-      const loginRequestData = wixClient.auth.generateOAuthData("http://localhost:3000");
-      localStorage.setItem("oAuthRedirectData", JSON.stringify(loginRequestData));
+  //   try {
+  //     const loginRequestData = wixClient.auth.generateOAuthData("http://localhost:3000");
+  //     localStorage.setItem("oAuthRedirectData", JSON.stringify(loginRequestData));
 
-      const { authUrl } = await wixClient.auth.getAuthUrl(loginRequestData);
-      console.log("Redirecting to:", authUrl);
+  //     const {authUrl}  = await wixClient.auth.getAuthUrl(loginRequestData);
+  //     console.log("Redirecting to:", authUrl);
 
-      // window.location.href = authUrl;
-    } catch (error) {
-      console.error("OAuth Login Error:", error);
-      alert("Login failed. Check console logs.");
-    } finally {
-      isLoggingIn = false;
-    }
-  };
+  //     // window.location.href = authUrl;
+  //   } catch (error) {
+  //     console.error("OAuth Login Error:", error);
+  //     alert("Login failed. Check console logs.");
+  //   } finally {
+  //     isLoggingIn = false;
+  //   }
+  // };
   return (
     <div className='border flex gap-4 xl:gap-6 items-center relative'>
-      <Image src='/profile.png' alt='' width={22} height={22} className='cursor-pointer' onClick={login}/>
+      <Image src='/profile.png' alt='' width={22} height={22} className='cursor-pointer' onClick={handleProfile}/>
       {
         isProfileOpen && (
-          <div className=' absolute p-4 top-12 left-0 text-sm z-50 shadow-lg rounded-md'>
+          <div className=' absolute p-4 top-12 left-0 text-sm z-50 shadow-lg rounded-md bg-white'>
             <Link href='/'>Profile</Link>
-            <div>Logout</div>
+            <div onClick={handleLogout}>{isLoading ? 'Logging out' : 'Logout'}</div>
           </div>
         )
       }
