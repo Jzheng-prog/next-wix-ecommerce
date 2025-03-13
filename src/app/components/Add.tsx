@@ -1,4 +1,6 @@
 'use client'
+import { useCartStore } from '@/hooks/useCartStore'
+import { useWixClient } from '@/hooks/useWixClient'
 import React, { useState } from 'react'
 
 interface AddProps {
@@ -9,6 +11,7 @@ interface AddProps {
 function Add({stockNum, productId, variantId}:AddProps) {
 
     const [quantity, setQuantity] = useState(1)
+    const wixClient = useWixClient()
 
     const handleClick = (action:string)=>{
 
@@ -19,6 +22,9 @@ function Add({stockNum, productId, variantId}:AddProps) {
             setQuantity(quantity+1)
         }
     }
+
+    const {addItem, isLoading} = useCartStore()
+
   return (
     <div>
       <h4>Choose A Quantity</h4>
@@ -40,7 +46,13 @@ function Add({stockNum, productId, variantId}:AddProps) {
             )}
             
         </div>
-        <button className='ring-1 w-36 rounded-3xl ring-red-400 py-2 px-4 hover:bg-red-400 hover:text-white'>Add to Cart</button>
+        <button 
+          className='ring-1 w-36 rounded-3xl ring-red-400 py-2 px-4 hover:bg-red-400 hover:text-white disabled:ring-0'
+          disabled={isLoading}
+          onClick={()=>addItem(wixClient, productId, quantity,variantId )}
+          >
+          Add to Cart
+        </button>
 
       </div>
      

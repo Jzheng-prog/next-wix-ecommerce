@@ -2,10 +2,11 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import CartModal from './CartModal'
 import { useWixClient } from '@/hooks/useWixClient'
 import Cookies from 'js-cookie'
+import { useCartStore } from '@/hooks/useCartStore'
 
 function NavIcons() {
 
@@ -13,7 +14,6 @@ function NavIcons() {
   const [isCartOpen, setIsCartOpen] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
 
-  const pathName = usePathname()
   const router = useRouter()
   const wixClient = useWixClient()
   const isLoggedIn = wixClient.auth.loggedIn();
@@ -39,30 +39,14 @@ function NavIcons() {
     router.push(logoutUrl)
 
   }
-  // Auth with wix-auth
-  // const wixClient = useWixClient()
 
-  // let isLoggingIn = false;
 
-  // const login = async () => {
-  //   if (isLoggingIn) return; // Prevent multiple requests
-  //   isLoggingIn = true;
-
-  //   try {
-  //     const loginRequestData = wixClient.auth.generateOAuthData("http://localhost:3000");
-  //     localStorage.setItem("oAuthRedirectData", JSON.stringify(loginRequestData));
-
-  //     const {authUrl}  = await wixClient.auth.getAuthUrl(loginRequestData);
-  //     console.log("Redirecting to:", authUrl);
-
-  //     // window.location.href = authUrl;
-  //   } catch (error) {
-  //     console.error("OAuth Login Error:", error);
-  //     alert("Login failed. Check console logs.");
-  //   } finally {
-  //     isLoggingIn = false;
-  //   }
-  // };
+  const {cart,counter, getCart} = useCartStore()
+  
+  useEffect(()=>{
+      getCart(wixClient)
+  },[wixClient, getCart])
+    
   return (
     <div className='border flex gap-4 xl:gap-6 items-center relative'>
       <Image src='/profile.png' alt='' width={22} height={22} className='cursor-pointer' onClick={handleProfile}/>
@@ -79,7 +63,7 @@ function NavIcons() {
       <div className='border relative' onClick={()=>setIsCartOpen(!isCartOpen)}>
         <Image src='/cart.png' alt='' width={22} height={22} className='cursor-pointer'/>
 
-        <div className='absolute -top-4 -right-4 h-6 w-6 bg-red-400 text-white rounded-full items-center justify-center flex'>2</div>
+        <div className='absolute -top-4 -right-4 h-6 w-6 bg-red-400 text-white rounded-full items-center justify-center flex'>{counter}</div>
       </div>
       {
         isCartOpen && (

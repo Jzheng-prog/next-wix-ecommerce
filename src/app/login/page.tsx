@@ -14,14 +14,14 @@ enum MODE {
 }
 function Login() {
 
-  // const router = useRouter()
-  // const wixClient = useWixClient()
-  // const isLoggedIn = wixClient.auth.loggedIn();
-  // console.log({isLoggedIn})
+  const router = useRouter()
+  const wixClient = useWixClient()
+  const isLoggedIn = wixClient.auth.loggedIn();
+  console.log({isLoggedIn})
 
-  // if(isLoggedIn){
-  //   router.push('/')
-  // }
+  if(isLoggedIn){
+    router.push('/')
+  }
   const [mode, setMode] = useState(MODE.LOGIN)
 
   const [username, setUsername] = useState('')
@@ -79,6 +79,7 @@ function Login() {
             email,
             window.location.href
           )
+          setMessage('Password reset e-mail sent. Check your e-mail!')
           break;
         case MODE.EMAIL_VERFICATION:
           response = await wixClient.auth.processVerification({
@@ -107,7 +108,20 @@ function Login() {
 
           router.push('/')
           break;
-
+        case LoginState.FAILURE:
+          if(response.errorCode === 'invalidEmail' || response.errorCode === 'invalidPassword' ){
+            setError('Invalid credentials!')
+          }else if(response.errorCode ==='emailAlreadyExists'){
+            setError('Email Already Exist!')
+          }else if(response.errorCode ==='resetPassword'){
+            setError('Reset your password')
+          }else{
+            setError('Something went wrong!')
+          }
+        case LoginState.EMAIL_VERIFICATION_REQUIRED:
+          setMode(MODE.EMAIL_VERFICATION)
+        case LoginState.OWNER_APPROVAL_REQUIRED:
+          setMessage('Your account is pending approval!')
         default:
           break;
       }
