@@ -2,10 +2,9 @@ import {Suspense } from "react"
 import CategoryList from "./components/CategoryList"
 import ProductList from "./components/ProductList"
 import Slider from "./components/Slider"
+import Link from "next/link"
 
 const HomePage = async () => {
-
- 
   return (
     <div className=''>
       <Slider/>
@@ -25,6 +24,7 @@ const HomePage = async () => {
       </div>
       <div className="mt-24 border border-red-400 px-4 md:px-8 lg:px-16 xl:32 2xl:px-64">
         <h1 className="text-2xl">New Products</h1>
+        <Link href={'/success'}>Success</Link>
       </div>
     </div>
   )

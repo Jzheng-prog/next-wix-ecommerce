@@ -11,7 +11,7 @@ type CartState = {
     wixClient: WixClient,
     productId: string,
     quantity: number,
-    variantId?: string
+    variantId?: string,
   ) => Promise<void>;
   removeItem: (wixClient: WixClient, itemId: string) => Promise<void>;
 };
@@ -26,18 +26,21 @@ export const useCartStore = create<CartState>((set) => ({
     try {
       const cart = await wixClient.currentCart.getCurrentCart();
       set({
-        cart: cart || null,
+        cart: cart || [],
         counter: cart?.lineItems?.length || 0,
         isLoading: false,
       });
     } catch (error) {
       console.error("Error fetching cart:", error);
-      set({ isLoading: false });
+      set((prev) => ({ ...prev, isLoading: false }));
     }
   },
 
   addItem: async (wixClient, productId,quantity, variantId) => {
-    set({ isLoading: true });
+    console.log('clicked addItem')
+    // set({ isLoading: true });
+    set((state) => ({ ...state, isLoading: true }));
+
     try {
       const response = await wixClient.currentCart.addToCurrentCart({
         lineItems: [

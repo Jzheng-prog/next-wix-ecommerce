@@ -14,7 +14,27 @@ function CartModal() {
 
     const {cart, isLoading, removeItem} = useCartStore()
 
-    console.log(cart)
+    const handleCheckOut = async () => {
+        try {
+            const checkout = await wixClient.currentCart.createCheckoutFromCurrentCart({
+                channelType:currentCart.ChannelType.WEB
+            })
+            const {redirectSession} = await wixClient.redirects.createRedirectSession({
+                ecomCheckout:{checkoutId:checkout.checkoutId},
+                callbacks:{
+                    postFlowUrl:window.location.origin,
+                    thankYouPageUrl:`${window.location.origin}/success`
+                }
+            })
+
+            if(redirectSession?.fullUrl){
+                window.location.href = redirectSession.fullUrl
+            }
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
   return (
     <div className='w-max border p-4 bg-white top-12 right-0 flex flex-col absolute shadow-md rounded-md z-50'>
       { 
@@ -82,7 +102,13 @@ function CartModal() {
                     <p className='text-gray-500 text-sm mt-2 mb-4 border'>Shipping and taxes calculated at checkout.</p>
                     <div className='flex justify-between text-sm'>
                         <button className='rounded-md py-3 px-4 ring-1 ring-gray-300'>View cart</button>
-                        <button className='rounded-md py-3 px-4 bg-black text-white disabled:cursor-not-allowed disabled:opacity-75' disabled={isLoading}>Checkout</button>
+                        <button 
+                            className='rounded-md py-3 px-4 bg-black text-white disabled:cursor-not-allowed disabled:opacity-75' 
+                            disabled={isLoading}
+                            onClick={handleCheckOut}
+                        >
+                            Checkout
+                        </button>
                     </div>
                 </div>
 

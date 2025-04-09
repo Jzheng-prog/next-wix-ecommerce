@@ -53,7 +53,7 @@ function NavIcons() {
       {
         isProfileOpen && (
           <div className=' absolute p-4 top-12 left-0 text-sm z-50 shadow-lg rounded-md bg-white'>
-            <Link href='/'>Profile</Link>
+            <Link href='/profile'>Profile</Link>
             <div onClick={handleLogout}>{isLoading ? 'Logging out' : 'Logout'}</div>
           </div>
         )

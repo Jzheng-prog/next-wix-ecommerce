@@ -15,6 +15,7 @@ function Add({stockNum, productId, variantId}:AddProps) {
 
     const handleClick = (action:string)=>{
 
+      console.log('clicked quanitity')
         if(action ==='minus' && quantity > 1){
             setQuantity(quantity-1)
         }
@@ -24,6 +25,13 @@ function Add({stockNum, productId, variantId}:AddProps) {
     }
 
     const {addItem, isLoading} = useCartStore()
+
+    // const handleAddToCart = (e: React.MouseEvent<HTMLButtonElement>) => {
+    //   e.preventDefault(); // ← stops any default behavior
+    //   console.log("Adding to cart...", { productId, quantity, variantId });
+    //   addItem(wixClient, productId, quantity, variantId);
+    // };
+    
 
   return (
     <div>
@@ -47,9 +55,11 @@ function Add({stockNum, productId, variantId}:AddProps) {
             
         </div>
         <button 
+          type="button"
           className='ring-1 w-36 rounded-3xl ring-red-400 py-2 px-4 hover:bg-red-400 hover:text-white disabled:ring-0'
           disabled={isLoading}
-          onClick={()=>addItem(wixClient, productId, quantity,variantId )}
+          onClick={()=>addItem(wixClient, productId, quantity,variantId)}
+          // onClick={(e)=>handleAddToCart(e)}
           >
           Add to Cart
         </button>
