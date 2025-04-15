@@ -48,11 +48,11 @@ function NavIcons() {
   },[wixClient, getCart])
     
   return (
-    <div className='border flex gap-4 xl:gap-6 items-center relative'>
+    <div className='flex gap-4 xl:gap-6 items-center relative'>
       <Image src='/profile.png' alt='' width={22} height={22} className='cursor-pointer' onClick={handleProfile}/>
       {
         isProfileOpen && (
-          <div className=' absolute p-4 top-12 left-0 text-sm z-50 shadow-lg rounded-md bg-white'>
+          <div className='absolute p-4 top-12 left-0 text-sm z-50 shadow-lg rounded-md bg-white'>
             <Link href='/profile'>Profile</Link>
             <div onClick={handleLogout}>{isLoading ? 'Logging out' : 'Logout'}</div>
           </div>
@@ -60,7 +60,7 @@ function NavIcons() {
       }
       <Image src='/notification.png' alt='' width={22} height={22} className='cursor-pointer'/>
 
-      <div className='border relative' onClick={()=>setIsCartOpen(!isCartOpen)}>
+      <div className='relative' onClick={()=>setIsCartOpen(!isCartOpen)}>
         <Image src='/cart.png' alt='' width={22} height={22} className='cursor-pointer'/>
 
         <div className='absolute -top-4 -right-4 h-6 w-6 bg-red-400 text-white rounded-full items-center justify-center flex'>{counter}</div>

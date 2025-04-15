@@ -42,7 +42,7 @@ function CustomizeProducts({productOptions, productId, variants}:CustomizeProduc
     setSelectedVariant(variant!)
   },[selectedOptions,variants])
   return (
-    <div className='border border-red-500 flex flex-col gap-6'>
+    <div className='flex flex-col gap-6'>
 
       {productOptions.map((option)=>(
         <div className='flex flex-col gap-6' key={option.name}>
@@ -58,7 +58,7 @@ function CustomizeProducts({productOptions, productId, variants}:CustomizeProduc
 
 
                 return option.name === 'Color' ?(
-                  <li className='border w-8 h-8 rounded-full ring-1 ring-gray-300 relative' 
+                  <li className='w-8 h-8 rounded-full ring-1 ring-gray-300 relative' 
                     style={{backgroundColor:choice.value, cursor:disabled?'not-allowed':'pointer'}}
                     onClick={clickHandler}
                     key={choice.description}

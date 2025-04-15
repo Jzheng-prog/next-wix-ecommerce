@@ -36,17 +36,17 @@ function CartModal() {
     }
 
   return (
-    <div className='w-max border p-4 bg-white top-12 right-0 flex flex-col absolute shadow-md rounded-md z-50'>
+    <div className='w-max p-4 bg-white top-12 right-0 flex flex-col absolute shadow-md rounded-md z-50'>
       { 
         !cart?.lineItems ? (
             <div>Cart is empty</div>
         ):
-            <div className='flex flex-col gap-8 border'>
+            <div className='flex flex-col gap-8'>
                 <h1 className='text-lg font-bold'>Shopping Cart</h1>
 
                 {
                     cart.lineItems.map((item)=>(
-                        <div className='border flex gap-4' key={item._id}>
+                        <div className='flex gap-4' key={item._id}>
 
                             {item.image && (
                                 <Image 
@@ -58,9 +58,9 @@ function CartModal() {
                                 />
                             )}
 
-                            <div className='border flex flex-col justify-between w-full'>
+                            <div className='flex flex-col justify-between w-full'>
                                 <div>
-                                    <div className='border flex items-center justify-between gap-8'>
+                                    <div className='flex items-center justify-between gap-8'>
                                         <h3 className='font-semibold'>{item.productName?.original}</h3>
                                         <p className='p-1 bg-gray-50 rounded-sm flex'>
                                             {
@@ -74,7 +74,7 @@ function CartModal() {
                                     <div className='text-sm text-gray-500'>{item.availability?.status}</div>
                                 </div>
 
-                                <div className='border flex justify-between text-sm'>
+                                <div className='flex justify-between text-sm'>
                                     <span className='text-gray-500'>quantity {item.quantity}</span>
                                     <span 
                                         style={{cursor: isLoading ? 'not-allowed':'pointer'}}
@@ -94,12 +94,12 @@ function CartModal() {
                 
 
 
-                <div className='border'>
-                    <div className='border flex items-center justify-between font-semibold'>
+                <div className=''>
+                    <div className='flex items-center justify-between font-semibold'>
                         <span>Subtotal</span>
                         <span>${cart.subtotal?.amount}</span>
                     </div>
-                    <p className='text-gray-500 text-sm mt-2 mb-4 border'>Shipping and taxes calculated at checkout.</p>
+                    <p className='text-gray-500 text-sm mt-2 mb-4'>Shipping and taxes calculated at checkout.</p>
                     <div className='flex justify-between text-sm'>
                         <button className='rounded-md py-3 px-4 ring-1 ring-gray-300'>View cart</button>
                         <button 

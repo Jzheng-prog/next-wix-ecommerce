@@ -45,11 +45,11 @@ async function ProductList({categoryId,limit,searchParams}:ProductListProps) {
 
   // console.log(res.hasNext(), res.length)
   return (
-    <div className='border flex gap-x-8 gap-y-16 justify-between flex-wrap'>
+    <div className='flex gap-x-8 gap-y-16 justify-between flex-wrap'>
 
       {res.items.map((product:products.Product)=>(
         <Link href={'/'+product.slug} className='w-full flex flex-col gap-4 sm:w-[45%] lg:w-[22%]' key={product._id}>
-          <div className='border relative w-full h-80'>
+          <div className='relative w-full h-80'>
               <Image 
                   src={product.media?.mainMedia?.image?.url || '/product.png'}
                   alt='' 
@@ -68,7 +68,7 @@ async function ProductList({categoryId,limit,searchParams}:ProductListProps) {
               }
              
           </div>
-          <div className='border flex justify-between'>
+          <div className='flex justify-between'>
             <span className='font-medium'>{product.name}</span>
             <span className='font-semibold'>${product.price?.price}</span>
           </div>

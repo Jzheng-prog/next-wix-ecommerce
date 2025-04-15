@@ -133,28 +133,28 @@ function Login() {
     }
   }
   return (
-    <div className="border border-black px-4 md:px-8 lg:px-16 xl:32 2xl: relative h-[calc(100vh-80px)] flex items-center justify-center">
-      <form action="" className="border flex flex-col gap-8" onSubmit={handleSubmit}>
+    <div className="px-4 md:px-8 lg:px-16 xl:32 2xl: relative h-[calc(100vh-80px)] flex items-center justify-center">
+      <form action="" className="flex flex-col gap-8" onSubmit={handleSubmit}>
         <h1 className="text-2xl font-semibold">{formTitle}</h1>
         {mode===MODE.REGISTER ?(
-          <div className="border flex flex-col gap-2">
+          <div className="flex flex-col gap-2">
             <label htmlFor="">Username</label>
             <input type="text" name="username" placeholder="john" className="ring-2 ring-gray-300 rounded-md p-4" onChange={(e)=>setUsername(e.target.value)}/>
           </div>
         ): null}
         {mode !== MODE.EMAIL_VERFICATION ? (
-          <div className="border flex flex-col gap-2">
+          <div className="flex flex-col gap-2">
             <label htmlFor="" className="text-sm text-gray-700">E-Mail</label>
             <input type="text" name="username" placeholder="john@gmail.com" className="ring-2 ring-gray-300 rounded-md p-4" onChange={(e)=>setEmail(e.target.value)}/>
           </div>
         ):(
-          <div className="border flex flex-col gap-2">
+          <div className="flex flex-col gap-2">
             <label htmlFor="" className="text-sm text-gray-700">Verification</label>
             <input type="text" name="emailCode" placeholder="code" className="ring-2 ring-gray-300 rounded-md p-4" onChange={(e)=>setEmailCode(e.target.value)}/>
           </div>
         )}
         {mode === MODE.LOGIN || mode === MODE.REGISTER ? (
-          <div className="border flex flex-col gap-2">
+          <div className="flex flex-col gap-2">
             <label htmlFor="" className="text-sm text-gray-700">Password</label>
             <input type="password" name="password" placeholder="Enter your password" className="ring-2 ring-gray-300 rounded-md p-4" onChange={(e)=>setPassword(e.target.value)}/>
           </div>
