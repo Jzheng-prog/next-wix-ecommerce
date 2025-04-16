@@ -19,11 +19,12 @@ export default async function CategoryList() {
                     <Image 
                         src={item.media?.mainMedia?.image?.url || '/cat.png'}
                         alt='' 
-                        fill sizes='25vw' 
-                        className='relative'
+                        fill 
+                        sizes='20vw' 
+                        className='object-cover'
                     />
                 </div>
-                <h1 className='mt-8 font-light text-clip tracking-wide'>{item.name}</h1>
+                <h1 className='mt-8 font-light text-xl tracking-wide'>{item.name}</h1>
             </Link>
         ))}
       </div>

@@ -28,46 +28,46 @@ function Footer() {
           <div className='flex flex-col justify-between'>
             <h1 className='font-medium text-lg'>Company</h1>
             <div className='flex flex-col gap-6'>
-              <Link href=''>About Us</Link>
-              <Link href=''>Careers</Link>
-              <Link href=''>Affiliates</Link>
-              <Link href=''>Blog</Link>
-              <Link href=''>Contact Us</Link>
+              <Link href='/comingSoon'>About Us</Link>
+              <Link href='/comingSoon'>Careers</Link>
+              <Link href='/comingSoon'>Affiliates</Link>
+              <Link href='/comingSoon'>Blog</Link>
+              <Link href='/comingSoon'>Contact Us</Link>
             </div>
           </div>
 
           <div className='flex flex-col justify-between'>
             <h1 className='font-medium text-lg'>Shop</h1>
             <div className='flex flex-col gap-6'>
-              <Link href=''>New Arrival</Link>
-              <Link href=''>Accessories</Link>
-              <Link href=''>Men</Link>
-              <Link href=''>Women</Link>
-              <Link href=''>All Products</Link>
+              <Link href='/comingSoon'>New Arrival</Link>
+              <Link href='/comingSoon'>Accessories</Link>
+              <Link href='/comingSoon'>Men</Link>
+              <Link href='/comingSoon'>Women</Link>
+              <Link href='/list'>All Products</Link>
             </div>
           </div>
 
           <div className='flex flex-col justify-between'>
             <h1 className='font-medium text-lg'>Help</h1>
             <div className='flex flex-col gap-6'>
-              <Link href=''>Customer Service</Link>
-              <Link href=''>My Account</Link>
-              <Link href=''>Find A Stores</Link>
-              <Link href=''>Legal & Privacy</Link>
-              <Link href=''>Gift Card</Link>
+              <Link href='/comingSoon'>Customer Service</Link>
+              <Link href='/profile'>My Account</Link>
+              <Link href='/comingSoon'>Find A Stores</Link>
+              <Link href='/comingSoon'>Legal & Privacy</Link>
+              <Link href='/comingSoon'>Gift Card</Link>
             </div>
           </div>
         </div>
 
         {/* right */}
         <div className='w-full md:w-1/2 lg:w-1/4 flex flex-col gap-8'>
-          <h1 className='font-medium text-lg'>Subscribe</h1>
+          {/* <h1 className='font-medium text-lg'>Subscribe</h1>
           <p>Be first to get the latest news about trends, promotions, and much more!</p>
           <div className='flex'>
             <input type="text" placeholder='Email address' className='p-4 w-3/4' />
             <button className='w-1/4 bg-red-400 text-white'>Join</button>
-          </div>
-          <span className='font-semibold'>Secure Payment</span>
+          </div> */}
+          <h1 className='font-medium text-lg'>Secure Payment</h1>
           <div className='flex justify-between'>
             <Image src='/discover.png' alt='' width={40} height={20}/>
             <Image src='/skrill.png' alt='' width={40} height={20}/>

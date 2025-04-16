@@ -7,6 +7,7 @@ import Image from 'next/image';
 import React, { useEffect } from 'react'
 import { useCartStore } from '@/hooks/useCartStore';
 import {media as wixMedia} from '@wix/sdk'
+import Link from 'next/link';
 
 function CartModal() {
 
@@ -38,7 +39,7 @@ function CartModal() {
   return (
     <div className='w-max p-4 bg-white top-12 right-0 flex flex-col absolute shadow-md rounded-md z-50'>
       { 
-        !cart?.lineItems ? (
+        !cart?.lineItems || !cart?.lineItems.length ? (
             <div>Cart is empty</div>
         ):
             <div className='flex flex-col gap-8'>
@@ -101,7 +102,7 @@ function CartModal() {
                     </div>
                     <p className='text-gray-500 text-sm mt-2 mb-4'>Shipping and taxes calculated at checkout.</p>
                     <div className='flex justify-between text-sm'>
-                        <button className='rounded-md py-3 px-4 ring-1 ring-gray-300'>View cart</button>
+                        <Link href={'/cart'} className='rounded-md py-3 px-4 ring-1 ring-gray-300'>View cart</Link>
                         <button 
                             className='rounded-md py-3 px-4 bg-black text-white disabled:cursor-not-allowed disabled:opacity-75' 
                             disabled={isLoading}

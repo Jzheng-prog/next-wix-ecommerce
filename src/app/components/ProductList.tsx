@@ -45,7 +45,7 @@ async function ProductList({categoryId,limit,searchParams}:ProductListProps) {
 
   // console.log(res.hasNext(), res.length)
   return (
-    <div className='flex gap-x-8 gap-y-16 justify-between flex-wrap'>
+    <div className='flex gap-x-8 gap-y-16 flex-wrap'>
 
       {res.items.map((product:products.Product)=>(
         <Link href={'/'+product.slug} className='w-full flex flex-col gap-4 sm:w-[45%] lg:w-[22%]' key={product._id}>

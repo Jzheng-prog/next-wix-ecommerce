@@ -9,70 +9,209 @@ export default async function ProfilePage() {
 
     const wixClient = await wixClientServer();
 
-    const user = await wixClient.members.getCurrentMember({
-        fieldsets:[members.Set.FULL]
-    })
+    // const user = await wixClient.members.getCurrentMember({
+    //     fieldsets:[members.Set.FULL]
+    // })
+    const user = {
+        member: {
+            contactId: 'contact_123456789',
+            profile: {
+            nickname: 'johnnyboy',
+            },
+            contact: {
+            firstName: 'John',
+            lastName: 'Doe',
+            phones: ['+123-456-7890'],
+            },
+            loginEmail: 'john.doe@example.com',
+        },
+    };
+
     if(!user.member?.contactId){
         return <div>Not Logged in!</div>
     }
 
-    const orderRes = await wixClient.orders.searchOrders({
-        search:{
-            filter:{
-                "buyerInfo.contactId":{
-                    $eq: user.member?.contactId
-                }
-            }
+    // const orderRes = await wixClient.orders.searchOrders({
+    //     search:{
+    //         filter:{
+    //             "buyerInfo.contactId":{
+    //                 $eq: user.member?.contactId
+    //             }
+    //         }
+    //     }
+    // })
+    const orderRes = {
+        orders: [
+          {
+            _id: 'order1234567890abcdef',
+            priceSummary: {
+              subtotal: {
+                amount: '$59.99',
+              },
+            },
+            _createdDate: '2025-04-12T10:15:00Z',
+            status: 'Processing',
+          },
+          {
+            _id: 'orderabcdef1234567890',
+            priceSummary: {
+              subtotal: {
+                amount: '$24.50',
+              },
+            },
+            _createdDate: '2025-04-10T14:30:00Z',
+            status: 'Shipped',
+          },
+          {
+            _id: 'orderfedcba0987654321',
+            priceSummary: {
+              subtotal: {
+                amount: '$120.00',
+              },
+            },
+            _createdDate: '2025-04-08T09:00:00Z',
+            status: 'Delivered',
+          },
+          {
+            _id: 'orderxyz987654321abc',
+            priceSummary: {
+              subtotal: {
+                amount: '$9.99',
+              },
+            },
+            _createdDate: '2025-04-01T16:45:00Z_'
+        },{
+            _id: 'order1234567890abcdef',
+            priceSummary: {
+              subtotal: {
+                amount: '$59.99',
+              },
+            },
+            _createdDate: '2025-04-12T10:15:00Z',
+            status: 'Processing',
+          },
+          {
+            _id: 'orderabcdef1234567890',
+            priceSummary: {
+              subtotal: {
+                amount: '$24.50',
+              },
+            },
+            _createdDate: '2025-04-10T14:30:00Z',
+            status: 'Shipped',
+          },
+          {
+            _id: 'orderfedcba0987654321',
+            priceSummary: {
+              subtotal: {
+                amount: '$120.00',
+              },
+            },
+            _createdDate: '2025-04-08T09:00:00Z',
+            status: 'Delivered',
+          },
+          {
+            _id: 'orderxyz987654321abc',
+            priceSummary: {
+              subtotal: {
+                amount: '$9.99',
+              },
+            },
+            _createdDate: '2025-04-01T16:45:00Z_'
+        },{
+            _id: 'orderxyz987654321abc',
+            priceSummary: {
+              subtotal: {
+                amount: '$9.99',
+              },
+            },
+            _createdDate: '2025-04-01T16:45:00Z_'
+        },{
+            _id: 'orderxyz987654321abc',
+            priceSummary: {
+              subtotal: {
+                amount: '$9.99',
+              },
+            },
+            _createdDate: '2025-04-01T16:45:00Z_'
+        },{
+            _id: 'orderxyz987654321abc',
+            priceSummary: {
+              subtotal: {
+                amount: '$9.99',
+              },
+            },
+            _createdDate: '2025-04-01T16:45:00Z_'
+        },{
+            _id: 'orderxyz987654321abc',
+            priceSummary: {
+              subtotal: {
+                amount: '$9.99',
+              },
+            },
+            _createdDate: '2025-04-01T16:45:00Z_'
         }
-    })
+        
+    ]}
+      
   return (
-    <div className='border flex flex-col md:flex-row gap-24 md:h-[calc(100vh-180px)] items-center px-4 md:px-8 lg:px-16 xl:px-32 2xl:px-64'>
-        <div className='border w-full md:w-1/2'>Profile</div>
-        <form action={updateUser} className='mt-12 flex flex-col gap-4'>
+    <div className='min-h-screen mt-12 flex flex-col md:flex-row gap-24 md:h-[calc(100vh-180px)] items-start px-4 md:px-8 lg:px-16 xl:px-32 2xl:px-64'>
+        <div className='w-full md:w-1/2'>
+            <h1 className="text-2xl">Profile</h1>
 
-            <input type='text' hidden name='id' value={user.member.contactId}/>
-            <label className='text-sm text-gray-700'>Username</label>
-            <input 
-                type="text" 
-                name='username'
-                placeholder={user.member?.profile?.nickname || "john"}
-                className='ring-1 ring-gray-300 rounded-md p-2 max-w-96'
-            />
-            <label className='text-sm text-gray-700'>First Name</label>
-            <input 
-                type="text" 
-                name='firstname'
-                placeholder={user.member?.contact?.firstName || "john"}
-                className='ring-1 ring-gray-300 rounded-md p-2 max-w-96'
-            />
-            <label className='text-sm text-gray-700'>Last Name</label>
-            <input 
-                type="text" 
-                name='username'
-                placeholder={user.member?.contact?.lastName || "doe"}
-                className='ring-1 ring-gray-300 rounded-md p-2 max-w-96'
-            />
-            <label className='text-sm text-gray-700'>Phone Number</label>
-            <input 
-                type="text" 
-                name='phone'
-                placeholder={user.member?.contact?.phones && user.member?.contact?.phones[0] || "+123456789"}
-                className='ring-1 ring-gray-300 rounded-md p-2 max-w-96'
-            />
-            <label className='text-sm text-gray-700'>Email</label>
-            <input 
-                type="text" 
-                name='email'
-                placeholder={user.member?.loginEmail || "John@gmail.com"}
-                className='ring-1 ring-gray-300 rounded-md p-2 max-w-96'
-            />
-            <UpdateButton/>
-        </form>
-        <div className='border w-full md:w-1/2'>
-            <h1>Orders</h1>
-            <div className='border border-red-500 mt-12 flex flex-col'>
+            <form action={updateUser} className='mt-12 flex flex-col gap-4'>
+
+                <input type='text' hidden name='id' value={user.member.contactId}/>
+                <label className='text-sm text-gray-700'>Username</label>
+                <input 
+                    type="text" 
+                    name='username'
+                    placeholder={user.member?.profile?.nickname || "john"}
+                    className='ring-1 ring-gray-300 rounded-md p-2 max-w-96'
+                />
+                <label className='text-sm text-gray-700'>First Name</label>
+                <input 
+                    type="text" 
+                    name='firstname'
+                    placeholder={user.member?.contact?.firstName || "john"}
+                    className='ring-1 ring-gray-300 rounded-md p-2 max-w-96'
+                />
+                <label className='text-sm text-gray-700'>Last Name</label>
+                <input 
+                    type="text" 
+                    name='lastname'
+                    placeholder={user.member?.contact?.lastName || "doe"}
+                    className='ring-1 ring-gray-300 rounded-md p-2 max-w-96'
+                />
+                <label className='text-sm text-gray-700'>Phone Number</label>
+                <input 
+                    type="text" 
+                    name='phone'
+                    placeholder={user.member?.contact?.phones && (user.member?.contact?.phones?.[0]) || "123-456-7890"}
+                    className='ring-1 ring-gray-300 rounded-md p-2 max-w-96'
+                />
+                <label className='text-sm text-gray-700'>Email</label>
+                <input 
+                    type="text" 
+                    name='email'
+                    placeholder={user.member?.loginEmail || "John@gmail.com"}
+                    className='ring-1 ring-gray-300 rounded-md p-2 max-w-96'
+                />
+                <UpdateButton/>
+            </form>
+        
+        
+        </div>
+        
+        <div className='w-full md:w-1/2 mb-1'>
+            <h1 className="text-2xl">Orders</h1>
+            <div className='border mt-12 flex flex-col'>
                 {orderRes.orders.map((order)=>(
-                    <Link href={`/orders/${order._id}`} key={order._id} className='flex justify-between px-2 py-6 rounded-md hover:bg-green-50 even:bg-slate-100'>
+                    <Link 
+                        href={`/orders/${order._id}`} 
+                        key={order._id} 
+                        className='flex justify-between px-2 py-6 rounded-md hover:bg-green-50 even:bg-slate-100'
+                    >
                         <span className='w-1/4'>{order._id?.substring(0,10)}</span>
                         <span className='w-1/4'>{order.priceSummary?.subtotal?.amount}</span>
                         {order._createdDate && <span className='w-1/4'>{format(order._createdDate)}</span>}
