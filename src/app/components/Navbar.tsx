@@ -1,16 +1,15 @@
 import React from 'react'
 import Menu from './Menu'
 import Link from 'next/link'
-import Image from 'next/image'
 import SearchBar from './SearchBar'
 import dynamic from 'next/dynamic'
-// import NavIcons from './NavIcons'
 
 const NavIcons = dynamic(()=>import('./NavIcons'), {ssr:false})
 
 function Navbar() {
+
   return (
-    <div className='h-20 px-4 md:px-8 lg:px-16 xl:32 2xl: relative border-b'>
+    <div className=' h-20 px-4 md:px-8 lg:px-16 xl:32 2xl: relative border-b'>
       {/* mobile */}
       <div className='flex items-center justify-between h-full md:hidden'>
         <Link href='/'>
@@ -29,10 +28,9 @@ function Navbar() {
           <div className='hidden xl:flex gap-4'>
               <Link href='/'>Home</Link>
               <Link href='/list'>Shop</Link>
-              <Link href='/comingSoon'>Deals</Link>
-              <Link href='/comingSoon'>About</Link>
+              <Link href='/#features'>Popular</Link>
+              <Link href='/about'>About</Link>
               <Link href='/comingSoon'>Contact</Link>
-              <Link href='/login'>Login</Link>
               <Link href='/cart'>Cart</Link>
           </div>
         </div>

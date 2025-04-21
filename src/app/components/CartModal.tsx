@@ -4,7 +4,7 @@ import { useWixClient } from '@/hooks/useWixClient';
 import { currentCart } from "@wix/ecom";
 
 import Image from 'next/image';
-import React, { useEffect } from 'react'
+import React  from 'react'
 import { useCartStore } from '@/hooks/useCartStore';
 import {media as wixMedia} from '@wix/sdk'
 import Link from 'next/link';
@@ -36,9 +36,8 @@ function CartModal() {
         }
     }
 
-    console.log({cart})
   return (
-    <div className='w-max p-4 bg-white top-12 right-0 flex flex-col absolute shadow-md rounded-md z-50'>
+    <div className='border w-max p-4 bg-white top-12 right-0 flex flex-col absolute shadow-md rounded-md z-50'>
       { 
         !cart?.lineItems || !cart?.lineItems.length ? (
             <div>Cart is empty</div>
@@ -50,14 +49,18 @@ function CartModal() {
                     cart.lineItems.map((item)=>(
                         <div className='flex gap-4' key={item._id}>
 
-                            {item.image && (
-                                <Image 
-                                    alt='image'
-                                    className='object-cover rounded-md'
-                                    width={72}
-                                    height={96}
-                                    src={wixMedia.getScaledToFillImageUrl(item.image,72,96,{})}
-                                />
+                            {item.image && item.url && (
+                                <Link
+                                    href={item.url.substring(item?.url.lastIndexOf('/')+1)}
+                                >
+                                    <Image 
+                                        alt='image'
+                                        className='object-cover rounded-md'
+                                        width={72}
+                                        height={96}
+                                        src={wixMedia.getScaledToFillImageUrl(item.image,72,96,{})}
+                                    />
+                                </Link>
                             )}
 
                             <div className='flex flex-col justify-between w-full'>

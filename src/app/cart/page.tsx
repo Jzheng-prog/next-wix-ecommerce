@@ -2,26 +2,32 @@
 
 import { useWixClient } from '@/hooks/useWixClient';
 import Image from 'next/image';
-import React, { useEffect } from 'react'
+import React from 'react'
 import { useCartStore } from '@/hooks/useCartStore';
 import {media as wixMedia} from '@wix/sdk'
 import Link from 'next/link';
+import { BsBagX } from "react-icons/bs";
+
 
 function CartPage() {
 
     const wixClient = useWixClient()
 
     const {cart, isLoading, removeItem} = useCartStore()
-
   return (
     <div className='flex w-full items-center justify-center'>
         <div className='w-1/2 mt-12'>
             {
                 !cart?.lineItems || !cart?.lineItems.length ? (
-                    <div>
-                        <h1 className='text-lg font-bold'>Shopping Cart</h1>
-                        <p className='mt-12'>Your Cart is Empty</p>
+                    <div className="flex flex-col space-y-4 sm:space-y-6">
+                        <h1 className='text-2xl font-bold'>Shopping Cart</h1>
+                        <h2 className="text-lg font-semibold my-5">Your cart is empty</h2>
 
+                        <p className="text-gray-600 mb-6">Looks like you haven't added anything yet. Let's fix that!</p>
+
+                        <div className='flex justify-center items-center py-10'>
+                            <BsBagX size={48} className="text-gray-700"/>
+                        </div>
                         <div className='mt-10'>
                             <div className='flex items-center justify-end font-semibold'>
                                 <span className='mr-4'>Subtotal:</span>
@@ -31,7 +37,7 @@ function CartPage() {
                             <div className='flex justify-end text-sm'>
                                 <button 
                                     className='rounded-md py-3 px-4 bg-black text-white disabled:cursor-not-allowed disabled:opacity-75' 
-                                    disabled={isLoading}
+                                    disabled={!isLoading}
                                 >
                                     Checkout
                                 </button>
@@ -70,10 +76,10 @@ function CartPage() {
                                     <div>
                                         <div className='flex items-center justify-between gap-8'>
                                             <h3 className='font-semibold'>{item.productName?.original}</h3>
-                                            <p className='p-1 bg-gray-50 rounded-sm flex'>
+                                            <p className='border p-1 bg-gray-50 rounded-sm flex'>
                                                 {
                                                     item.quantity && item.quantity > 1 &&
-                                                    <div className='text-sm text-green-400 flex items-center mx-2'>{item.quantity} x </div>
+                                                    <div className='text-sm text-black flex items-center mx-2'>{item.quantity} x </div>
                                                 }
                                                 ${item.price?.amount}
                                             </p>

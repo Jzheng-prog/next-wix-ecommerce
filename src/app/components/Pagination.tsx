@@ -21,12 +21,12 @@ function Pagination({currentPage, hasNext, hasPrev}:PaginationProps) {
     
   return (
     <div className='w-full mt-12 flex justify-between'>
-        <button className='rounded-md bg-red-400 text-white p-2 text-sm w-24 cursor-pointer disabled:cursor-not-allowed disbled:bg-pink-200' disabled={!hasPrev}
+        <button className='rounded-md bg-black text-white p-2 text-sm w-24 cursor-pointer disabled:cursor-not-allowed disbled:bg-pink-200' disabled={!hasPrev}
             onClick={()=>createPageUrl(currentPage-1)}
         >
             Previous
         </button>
-        <button className='rounded-md bg-red-400 text-white p-2 text-sm w-24 cursor-pointer disabled:cursor-not-allowed disbled:bg-pink-200' disabled={!hasNext}
+        <button className='rounded-md bg-black text-white p-2 text-sm w-24 cursor-pointer disabled:cursor-not-allowed disbled:bg-pink-200' disabled={!hasNext}
             onClick={()=>createPageUrl(currentPage+1)}
         >
             Next

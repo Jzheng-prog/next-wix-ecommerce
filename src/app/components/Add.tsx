@@ -14,8 +14,6 @@ function Add({stockNum, productId, variantId}:AddProps) {
     const wixClient = useWixClient()
 
     const handleClick = (action:string)=>{
-
-      console.log('clicked quanitity')
         if(action ==='minus' && quantity > 1){
             setQuantity(quantity-1)
         }

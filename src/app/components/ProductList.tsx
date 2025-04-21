@@ -29,8 +29,6 @@ async function ProductList({categoryId,limit,searchParams}:ProductListProps) {
   if (searchParams?.sort) {
     const [sortType, sortBy] = searchParams.sort.split(' ');
 
-    // console.log({ sortBy, sortType });
-
     if (sortBy) {
       if (sortType === 'asc') {
         query = query.ascending(sortBy);
@@ -43,7 +41,6 @@ async function ProductList({categoryId,limit,searchParams}:ProductListProps) {
 
   const res = await query.find();
 
-  // console.log(res.hasNext(), res.length)
   return (
     <div className='flex gap-x-8 gap-y-16 flex-wrap'>
 

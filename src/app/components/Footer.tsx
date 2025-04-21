@@ -28,7 +28,7 @@ function Footer() {
           <div className='flex flex-col justify-between'>
             <h1 className='font-medium text-lg'>Company</h1>
             <div className='flex flex-col gap-6'>
-              <Link href='/comingSoon'>About Us</Link>
+              <Link href='/about'>About Us</Link>
               <Link href='/comingSoon'>Careers</Link>
               <Link href='/comingSoon'>Affiliates</Link>
               <Link href='/comingSoon'>Blog</Link>
@@ -40,7 +40,7 @@ function Footer() {
             <h1 className='font-medium text-lg'>Shop</h1>
             <div className='flex flex-col gap-6'>
               <Link href='/comingSoon'>New Arrival</Link>
-              <Link href='/comingSoon'>Accessories</Link>
+              <Link href='/list?cat=accesories'>Accessories</Link>
               <Link href='/comingSoon'>Men</Link>
               <Link href='/comingSoon'>Women</Link>
               <Link href='/list'>All Products</Link>
@@ -53,7 +53,7 @@ function Footer() {
               <Link href='/comingSoon'>Customer Service</Link>
               <Link href='/profile'>My Account</Link>
               <Link href='/comingSoon'>Find A Stores</Link>
-              <Link href='/comingSoon'>Legal & Privacy</Link>
+              <Link href='/privacy-policy'>Legal & Privacy</Link>
               <Link href='/comingSoon'>Gift Card</Link>
             </div>
           </div>

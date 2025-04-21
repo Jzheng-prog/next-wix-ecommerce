@@ -13,7 +13,6 @@ function SearchBar() {
     const formData = new FormData(e.currentTarget)
     const name = formData.get('name') as string;
 
-    // console.log('form submited', formData, name)
     if(name){
       router.push(`/list?name=${name}`)
     }
