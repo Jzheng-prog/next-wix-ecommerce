@@ -78,7 +78,7 @@ async function ProductList({categoryId,limit,searchParams}:ProductListProps) {
             )
           }
   
-          <button className='rounded-2xl ring-1 ring-red-400 bg-white text-xs py-2 px-4 hover:bg-red-400 hover:text-white w-max'>Add to Cart</button>
+          <button className='transition rounded-2xl ring-1 ring-black bg-white text-xs py-2 px-4 hover:bg-black hover:text-white w-max'>Add to Cart</button>
         </Link>
 
       ))}

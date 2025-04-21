@@ -3,7 +3,7 @@ import { currentCart } from "@wix/ecom";
 import { WixClient } from "@/context/wixContext";
 
 type CartState = {
-  cart: currentCart.Cart | null;
+  cart: ExtendedCart | null;
   isLoading: boolean;
   counter: number;
   getCart: (wixClient: WixClient) => Promise<void>;
@@ -16,6 +16,15 @@ type CartState = {
   removeItem: (wixClient: WixClient, itemId: string) => Promise<void>;
 };
 
+type ExtendedCart = currentCart.Cart & {
+  subtotal?: {
+    amount: string;
+    convertedAmount: string;
+    formattedAmount: string;
+    formattedConvertedAmount: string;
+  };
+};
+
 export const useCartStore = create<CartState>((set) => ({
   cart: null,
   isLoading: false,
@@ -26,7 +35,7 @@ export const useCartStore = create<CartState>((set) => ({
     try {
       const cart = await wixClient.currentCart.getCurrentCart();
       set({
-        cart: cart || [],
+        cart: cart || null,
         counter: cart?.lineItems?.length || 0,
         isLoading: false,
       });
@@ -81,6 +90,7 @@ export const useCartStore = create<CartState>((set) => ({
     } catch (error) {
       console.error("Error removing item:", error);
       set({ isLoading: false });
+      alert("Failed to remove item");
     }
   },
 }));

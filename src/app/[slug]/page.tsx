@@ -40,12 +40,12 @@ return (
         )
         }
         <div className='h-[2px] bg-gray-100'/>
-        {product.variants && product.productOptions ? (
+        {product.variants && product.productOptions && product._id ? (
 
           <CustomizeProducts productId={product._id} variants={product.variants} productOptions={product.productOptions}/>
 
         ):(
-          <Add productId={product._id} variantId='00000000-000000-000000-000000000001' stockNum={product.stock?.quantity || 0}/>
+          product._id && <Add productId={product._id} variantId='00000000-000000-000000-000000000001' stockNum={product.stock?.quantity || 0}/>
         )}
 
         <div className='h-[2px] bg-gray-100'/>

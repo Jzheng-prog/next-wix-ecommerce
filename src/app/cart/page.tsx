@@ -1,8 +1,6 @@
 'use client'
 
 import { useWixClient } from '@/hooks/useWixClient';
-import { currentCart } from "@wix/ecom";
-
 import Image from 'next/image';
 import React, { useEffect } from 'react'
 import { useCartStore } from '@/hooks/useCartStore';
@@ -46,19 +44,26 @@ function CartPage() {
     
                     {
                         cart.lineItems.map((item)=>(
-                            <Link 
+                            <div 
                                 className='border p-3 flex gap-4' 
                                 key={item._id}
-                                href={item.url?.substring(item?.url.lastIndexOf('/')+1)}
                             >
-                                {item.image && (
-                                    <Image 
-                                        alt='image'
-                                        className='object-cover rounded-md'
-                                        width={72}
-                                        height={96}
-                                        src={wixMedia.getScaledToFillImageUrl(item.image,72,96,{})}
-                                    />
+                                {item.image && item.url ? (
+
+                                    <Link
+                                        href={item.url.substring(item?.url.lastIndexOf('/')+1)}
+                                    >
+                                        <Image 
+                                            alt='image'
+                                            className='object-cover rounded-md'
+                                            width={72}
+                                            height={96}
+                                            src={wixMedia.getScaledToFillImageUrl(item.image,72,96,{})}
+                                        />
+                                    </Link>
+                                    
+                                ):(
+                                    <div className="w-18 h-24 bg-gray-200 rounded-md">No image</div>
                                 )}
     
                                 <div className='flex flex-col justify-between w-full'>
@@ -81,7 +86,7 @@ function CartPage() {
                                         <span className='text-gray-500'>quantity {item.quantity}</span>
                                         <span 
                                             style={{cursor: isLoading ? 'not-allowed':'pointer'}}
-                                            className='text-blue-500' 
+                                            className={`text-blue-500 hover:underline aria-labels ${isLoading ? 'cursor-not-allowed opacity-50' : ''}`}
                                             onClick={()=>removeItem(wixClient, item._id!)}
                                         >
                                             remove
@@ -90,7 +95,7 @@ function CartPage() {
                                     </div>
                                 </div>
     
-                            </Link>
+                            </div>
                         ))
     
                     }
@@ -103,7 +108,7 @@ function CartPage() {
                         <p className='text-gray-500 text-sm mt-2 mb-4'>Shipping and taxes calculated at checkout.</p>
                         <div className='flex justify-end text-sm'>
                             <button 
-                                className='rounded-md py-3 px-4 bg-black text-white disabled:cursor-not-allowed disabled:opacity-75' 
+                                className='aria-labels rounded-md py-3 px-4 bg-black text-white disabled:cursor-not-allowed disabled:opacity-75' 
                                 disabled={isLoading}
                             >
                                 Checkout

@@ -36,6 +36,7 @@ function CartModal() {
         }
     }
 
+    console.log({cart})
   return (
     <div className='w-max p-4 bg-white top-12 right-0 flex flex-col absolute shadow-md rounded-md z-50'>
       { 
@@ -63,10 +64,10 @@ function CartModal() {
                                 <div>
                                     <div className='flex items-center justify-between gap-8'>
                                         <h3 className='font-semibold'>{item.productName?.original}</h3>
-                                        <p className='p-1 bg-gray-50 rounded-sm flex'>
+                                        <p className='p-1 bg-gray-50 border rounded-sm flex'>
                                             {
                                                 item.quantity && item.quantity > 1 &&
-                                                <div className='text-sm text-green-400 flex items-center mx-2'>{item.quantity} x </div>
+                                                <div className=' flex items-center mx-2'>{item.quantity} x </div>
                                             }
                                             ${item.price?.amount}
                                         </p>
@@ -79,7 +80,7 @@ function CartModal() {
                                     <span className='text-gray-500'>quantity {item.quantity}</span>
                                     <span 
                                         style={{cursor: isLoading ? 'not-allowed':'pointer'}}
-                                        className='text-blue-500' 
+                                        className='text-blue-500 hover:underline' 
                                         onClick={()=>removeItem(wixClient, item._id!)}
                                     >
                                         remove
@@ -93,8 +94,6 @@ function CartModal() {
 
                 }
                 
-
-
                 <div className=''>
                     <div className='flex items-center justify-between font-semibold'>
                         <span>Subtotal</span>

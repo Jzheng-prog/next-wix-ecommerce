@@ -159,7 +159,7 @@ export default async function ProfilePage() {
         <div className='w-full md:w-1/2'>
             <h1 className="text-2xl">Profile</h1>
 
-            <form action={updateUser} className='mt-12 flex flex-col gap-4'>
+            <form action={updateUser} className='mt-12 flex flex-col gap-4 px-8 md:px-0'>
 
                 <input type='text' hidden name='id' value={user.member.contactId}/>
                 <label className='text-sm text-gray-700'>Username</label>
@@ -210,7 +210,7 @@ export default async function ProfilePage() {
                     <Link 
                         href={`/orders/${order._id}`} 
                         key={order._id} 
-                        className='flex justify-between px-2 py-6 rounded-md hover:bg-green-50 even:bg-slate-100'
+                        className='flex justify-between px-2 py-6 hover:bg-green-50 even:bg-slate-100'
                     >
                         <span className='w-1/4'>{order._id?.substring(0,10)}</span>
                         <span className='w-1/4'>{order.priceSummary?.subtotal?.amount}</span>

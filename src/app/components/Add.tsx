@@ -35,16 +35,16 @@ function Add({stockNum, productId, variantId}:AddProps) {
 
   return (
     <div>
-      <h4>Choose A Quantity</h4>
+      <h4 className='mb-3'>Choose A Quantity</h4>
       <div className='flex justify-between'>
         <div className='flex items-center gap-4'>
-            <div className='border bg-gray-100 py-2 px-4 rounded-3xl flex items-center justify-between w-32'>
-                <button className='text-xl' onClick={()=>handleClick('minus')}>-</button>
-                {quantity}
+            <div className=' bg-gray-100 py-2 px-4 rounded-3xl flex items-center justify-between w-32'>
+                <button className={`text-xl`} onClick={()=>handleClick('minus')}>-</button>
+                  {stockNum > 0 ? quantity : 0}
                 <button className='text-xl' onClick={()=>handleClick('add')}>+</button>
             </div>
             {stockNum < 1 ? (
-              <div className='text-xs'>
+              <div className='text-xs font-semibold underline'>
                 Product Out of Stock!
               </div>
             ):(
@@ -56,7 +56,7 @@ function Add({stockNum, productId, variantId}:AddProps) {
         </div>
         <button 
           type="button"
-          className='ring-1 w-36 rounded-3xl ring-red-400 py-2 px-4 hover:bg-red-400 hover:text-white disabled:ring-0'
+          className='transition ring-1 w-36 rounded-3xl ring-black py-2 px-4 hover:bg-black hover:text-white disabled:ring-0'
           disabled={isLoading}
           onClick={()=>addItem(wixClient, productId, quantity,variantId)}
           // onClick={(e)=>handleAddToCart(e)}
