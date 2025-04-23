@@ -30,7 +30,7 @@ function Navbar() {
               <Link href='/list'>Shop</Link>
               <Link href='/#features'>Popular</Link>
               <Link href='/about'>About</Link>
-              <Link href='/comingSoon'>Contact</Link>
+              <Link href='/contact'>Contact</Link>
               <Link href='/cart'>Cart</Link>
           </div>
         </div>

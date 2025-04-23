@@ -32,7 +32,7 @@ function Footer() {
               <Link href='/comingSoon'>Careers</Link>
               <Link href='/comingSoon'>Affiliates</Link>
               <Link href='/comingSoon'>Blog</Link>
-              <Link href='/comingSoon'>Contact Us</Link>
+              <Link href='/contact'>Contact Us</Link>
             </div>
           </div>
 

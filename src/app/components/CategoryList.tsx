@@ -10,12 +10,12 @@ export default async function CategoryList() {
     const category = await wixClient.collections.queryCollections().find()
 
   return (
-    <div className='px-4 overflow-x-scroll scrollbar-hide'>
-      <div className='flex gap-4 md:gap-8'>
+    <div className='px-4'>
+      <div className='flex gap-4 md:gap-8 items-center justify-center'>
 
         {category.items.map((item)=>(
-            <Link href={`/list?cat=${item.slug}`} className='flex-shrink-0 w-full sm:w-1/2 lg:w-1/4 xl:w-1/6' key={item._id}>
-                <div className='relative bg-slate-100 w-full h-96'>
+            <Link href={`/list?cat=${item.slug}`} className='flex-shrink-0 w-full sm:w-1/2 lg:w-1/4 xl:w-1/6 hover:scale-105 transition hover:underline' key={item._id}>
+                <div className='relative w-full h-96'>
                     <Image 
                         src={item.media?.mainMedia?.image?.url || '/cat.png'}
                         alt={item.name || 'Category image'}

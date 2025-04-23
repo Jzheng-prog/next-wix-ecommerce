@@ -34,7 +34,7 @@ function Add({stockNum, productId, variantId}:AddProps) {
   return (
     <div>
       <h4 className='mb-3'>Choose A Quantity</h4>
-      <div className='flex justify-between'>
+      <div className='md:flex justify-between'>
         <div className='flex items-center gap-4'>
             <div className=' bg-gray-100 py-2 px-4 rounded-3xl flex items-center justify-between w-32'>
                 <button className={`text-xl`} onClick={()=>handleClick('minus')}>-</button>
@@ -54,8 +54,8 @@ function Add({stockNum, productId, variantId}:AddProps) {
         </div>
         <button 
           type="button"
-          className='transition ring-1 w-36 rounded-3xl ring-black py-2 px-4 hover:bg-black hover:text-white disabled:ring-0'
-          disabled={isLoading}
+          className='mt-3 md:mt-0 transition ring-1 w-36 rounded-3xl ring-black py-2 px-4 enabled:hover:bg-black enabled:hover:text-white  disabled:cursor-not-allowed disabled:transition-none'
+          disabled={isLoading || stockNum === 0 ? true: false}
           onClick={()=>addItem(wixClient, productId, quantity,variantId)}
           // onClick={(e)=>handleAddToCart(e)}
           >

@@ -13,10 +13,17 @@ function CartPage() {
 
     const wixClient = useWixClient()
 
-    const {cart, isLoading, removeItem} = useCartStore()
+    const {cart, isLoading, removeItem, updateItemQuantity } = useCartStore()
+
+    const handleQuantityChange = (itemId: string, quantity: number) => {
+        // Ensure the quantity is valid (positive number)
+        if (quantity <= 0) return;
+        
+        updateItemQuantity(wixClient, itemId, quantity);
+    };
   return (
     <div className='flex w-full items-center justify-center'>
-        <div className='w-1/2 mt-12'>
+        <div className='md:w-1/2 mt-12 p-2 md:p-0'>
             {
                 !cart?.lineItems || !cart?.lineItems.length ? (
                     <div className="flex flex-col space-y-4 sm:space-y-6">
@@ -46,12 +53,12 @@ function CartPage() {
                     </div>
                 ):
                 <div className='flex flex-col gap-8'>
-                    <h1 className='text-2xl font-bold'>Shopping Cart</h1>
+                    <h1 className='text-2xl font-bold text-center md:text-left'>Shopping Cart</h1>
     
                     {
                         cart.lineItems.map((item)=>(
                             <div 
-                                className='border p-3 flex gap-4' 
+                                className='md:border p-3 flex gap-4' 
                                 key={item._id}
                             >
                                 {item.image && item.url ? (
@@ -60,7 +67,7 @@ function CartPage() {
                                         href={item.url.substring(item?.url.lastIndexOf('/')+1)}
                                     >
                                         <Image 
-                                            alt='image'
+                                            alt={item.productName?.original! || 'product-image'}
                                             className='object-cover rounded-md'
                                             width={72}
                                             height={96}
@@ -77,22 +84,36 @@ function CartPage() {
                                         <div className='flex items-center justify-between gap-8'>
                                             <h3 className='font-semibold'>{item.productName?.original}</h3>
                                             <p className='border p-1 bg-gray-50 rounded-sm flex'>
-                                                {
-                                                    item.quantity && item.quantity > 1 &&
-                                                    <div className='text-sm text-black flex items-center mx-2'>{item.quantity} x </div>
-                                                }
-                                                ${item.price?.amount}
+                                                <div className='text-sm text-black flex items-center md:mx-2 font-bold'>Price: ${item.price?.amount}</div>
                                             </p>
                                         </div>
     
-                                        <div className='text-sm text-gray-500'>{item.availability?.status}</div>
+                                        {/* <div className='text-xs text-gray-500'>{item.availability?.status}</div> */}
                                     </div>
     
                                     <div className='flex justify-between text-sm'>
-                                        <span className='text-gray-500'>quantity {item.quantity}</span>
+                                        <div className='flex flex-col items-center'> 
+                                            <span className='my-1'>Quantity</span>
+                                            <div>
+                                                <button className='border rounded-full px-2 disabled:cursor-not-allowed' 
+                                                    onClick={()=>handleQuantityChange(item._id!, item.quantity!-1)}
+                                                    disabled={isLoading || item.quantity! <= 1}
+                                                    >
+                                                        -
+                                                </button>
+                                                <span className='px-2 mx-1 rounded-md font-semibold'>{item.quantity}</span>
+                                                <button className='border rounded-full px-2' 
+                                                    onClick={()=>handleQuantityChange(item._id!, item.quantity!+1)}
+                                                    disabled={isLoading}
+                                                    >
+                                                        +
+                                                </button>
+                                            </div>
+                                        </div>
+                                        
                                         <span 
                                             style={{cursor: isLoading ? 'not-allowed':'pointer'}}
-                                            className={`text-blue-500 hover:underline aria-labels ${isLoading ? 'cursor-not-allowed opacity-50' : ''}`}
+                                            className={`text-blue-500 flex items-end hover:underline aria-labels ${isLoading ? 'cursor-not-allowed opacity-50' : ''}`}
                                             onClick={()=>removeItem(wixClient, item._id!)}
                                         >
                                             remove
@@ -106,12 +127,12 @@ function CartPage() {
     
                     }
                     
-                    <div>
+                    <div className=''>
                         <div className='flex items-center justify-end font-semibold'>
-                            <span className='mr-4'>Subtotal:</span>
+                            <span className='mr-1'>Subtotal:</span>
                             <span>${cart.subtotal?.amount}</span>
                         </div>
-                        <p className='text-gray-500 text-sm mt-2 mb-4'>Shipping and taxes calculated at checkout.</p>
+                        <p className='text-gray-500 text-sm mt-2 mb-4 text-center md:text-end'>Shipping and taxes calculated at checkout.</p>
                         <div className='flex justify-end text-sm'>
                             <button 
                                 className='aria-labels rounded-md py-3 px-4 bg-black text-white disabled:cursor-not-allowed disabled:opacity-75' 

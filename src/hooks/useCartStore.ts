@@ -14,6 +14,8 @@ type CartState = {
     variantId?: string,
   ) => Promise<void>;
   removeItem: (wixClient: WixClient, itemId: string) => Promise<void>;
+  updateItemQuantity: (wixClient:WixClient, itemId:string, quantity:number) => Promise<void>;
+
 };
 
 type ExtendedCart = currentCart.Cart & {
@@ -89,6 +91,25 @@ export const useCartStore = create<CartState>((set) => ({
       console.error("Error removing item:", error);
       set({ isLoading: false });
       alert("Failed to remove item");
+    }
+  },
+
+  updateItemQuantity: async (wixClient, itemId, quantity) => {
+    set({ isLoading: true });
+    try {
+      // Assuming the backend function for updating item quantity is called directly here
+      const updatedCart = await wixClient.currentCart.updateCurrentCartLineItemQuantity([
+        { _id: itemId, quantity },
+      ]);
+
+      set({
+        cart: updatedCart.cart,
+        counter: updatedCart.cart?.lineItems?.length || 0,
+        isLoading: false,
+      });
+    } catch (error) {
+      console.error("Failed to update item quantity:", error);
+      set({ isLoading: false });
     }
   },
 }));
